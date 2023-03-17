@@ -1,0 +1,306 @@
+%! TEX program = pdflatex
+
+\documentclass[oneside,solution]{seu-ml-assign}
+\usepackage{CJK}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\renewcommand{\baselinestretch}{1.25}
+\title{Homework}
+\author{}
+\studentID{}
+\instructor{Zhengyang Liu}
+\date{\today}
+\duedate{July 17, 2022}
+\assignno{2}
+\semester{BIT --- 2022 Spring}
+\mainproblem{Mechanism Design}
+
+\begin{document}
+
+\maketitle
+%\startsolution[print]
+\problem{Favourite Movie}
+\emph{Interstellar} directed by Christopher Nolan. It's a grand and
+thoughtful journey into time and space and gravity, into the beautiful
+and dazzling universe. But it goes beyond that, as "love is the one
+thing that transcends time and space." It's a movie that awes me and
+inspires me into the known.
+
+Of course, \emph{A Beautiful Mind} is a movie worth watching, too.
+\problem{Favourite Theorem in Class}
+My favorite one is Myerson's Lemma. In the first place, the theorem
+itself is powerful and concise: it turns the elusive "implementable"
+goal into an explicit one with uniqueness and offers a simple formula to
+achieve it. Furthermore, the lemma is useful
+in many cases to attain DSIC mechanism, for example, revenue-maximization auction design. It  lays foundation for subsequent
+theories and thus is of significant
+importance. Most importantly, it sparks my interest and inspires to me
+to learn more about mechanism design from that class on.
+\problem{XOS Function}
+(Discussed with Jingyi Gang, Sitian Shen)
+
+
+To prove this, we will first construct \(2^m\) additive valuations for
+the mapping of \(a_T(S), T\in [m]\) such that
+\(v(S)=\max_{T\subseteq[m]}a_{T}(S)\). Then, using given information, we
+will prove that any monotone and normalized submodular function \(v(S)\)
+can be written as an XOS function using this way of construction.
+\subsection{Construction of Additive
+Valuations}
+\\ \hspace*{\fill} \\
+$\text{        }\quad\text{  }$
+In this section, we construct \(2^m\) additive valuations such that
+\(v(S)=a_{S}(S)\).
+
+For \(S=\emptyset\), define \(a_{\emptyset}(\emptyset)\equiv0\). For \(i\in[m]\),
+define \(a_{\emptyset}(i)\equiv0\)
+
+For \(S\notin \emptyset,i\in[m]\), taking random selection of an element
+\(j\) from the set \(S\), we define \(a_{S}(i)\) as follows:
+
+\begin{equation}
+a_S(i)=\left\{
+\begin{aligned}
+&-\infty,  & i\notin S \\
+&a_{S-\{j\}}(i)  ,& i \neq j \\
+&v(S)-v(S-\{j\}),& i=j
+\end{aligned}
+\right.
+\end{equation}
+
+As \(a_{S}\) is an additive function, using information that \(v\) is
+normalized(i.e., \(v(\emptyset)=0\)), we can infer that
+\begin{equation}
+    \begin{aligned}
+a_{S}(S)&=\sum_{i\in S}a_{S}(i)=a_{S}(j)+\sum_{i\in S-\{j\}}a_{S}(i)\\
+&=v(S)-v(S-\{j\})+a_{S-\{j\}}(S-\{j\})=\cdots \\
+&=v(S)-v(S-\{j\})+v(S-\{j\})\cdots-v(\{k\})+v(\{k\})-v(\emptyset)+a_{\emptyset}(\emptyset)\\
+&=v(S)
+\end{aligned}
+\end{equation}
+
+
+For \(T\in[m]\), we can obtain that
+
+\begin{equation}
+    a_T(S)=\left\{
+\begin{aligned}
+&-\infty,  &S\not\subseteq T \\
+&a_{T-\{i\}}(S), &S\subseteq T-\{i\}  \\
+&a_{T-\{i\}}(S)+v(T)-v(T-\{i\})  ,&\text{other} \\
+\end{aligned}
+\right.
+\label{eq:4-3}
+\end{equation}
+\subsection{Proof of XOS}
+\\ \hspace*{\fill} \\
+$\text{        }\quad\text{  }$
+In this section, using the construction above, we aim to prove that any
+monotone and normalized submodular function \(v(S)\) can be written as
+an XOS function. That is, \(v(S)=a_{S}(S)=max_{T\in[m]}(S)\).
+\paragraph{case 1} \(S\not\subseteq T\)
+
+From Eq.~\eqref{eq:4-3}, it is obvious
+that \(a_{T}(S)=-\infty\). As \(v\) is monotone and normalized, we can
+infer that \(v(S)\geq v(\emptyset)=0\). Thus,
+\(a_{T}(S)=-\infty<a_{S}(S)=v(S)\).
+
+\paragraph{case 2}
+\(S \subseteq S+\{i\}\subseteq \cdots\subseteq T-\{j\} \subseteq T\)
+when \(a_{T}(S)\) is inherited from \(a_{S}(S)\)
+
+From Eq.~\eqref{eq:4-3}, we can know
+that \(a_{T}(S)=a_{T-\{j\}}(S)=\cdots=a_{S+\{i\}}(S)=a_{S}(S)\).
+
+\paragraph{case 3} \(S \subseteq T\), but not in case 2.
+
+Suppose \(T=S+\{i\}\) and \(T\) is not inherited from \(S\), we can show
+that \(a_T(S)\leq v(S)\).
+
+Prove by mathematical induction.
+
+For \(S=\{j\},|S|=1\) and \(T\) is inherited from \(\{i\}\)
+\begin{equation}
+    \begin{aligned}
+    &a_T(i)=a_{\{i\}}(i)=v(\{i\})-v(\emptyset)=v(\{i\})\\
+&a_T(j)=v(T)-v(\{i\})\\
+&a_T(T)=v(T)
+    \end{aligned}
+\end{equation}
+
+Recall that \(v\) is submodular, that is,
+\begin{equation}
+    v(s\cup t)+v(s\cap t)\leq v(s)+v(t)
+    \label{equ:4-5}
+\end{equation}
+
+Thus, \(v(T)=v(\{i\}+\{j\})+v(\emptyset)<v(\{i\})+v(\{j\})\),
+\begin{equation}
+    a_T(S)=a_T(j)=v(T)-v(\{i\})<v({j})=v(S)
+\end{equation}
+
+For \(|S|\neq1\) and \(T\) is inherited from \(S-\{j\}\), assume that
+\(a_{T-\{j\}}(S-\{j\})\leq v(S-\{j\})\), we can infer that
+\begin{equation}
+    \begin{aligned}
+    a_{T}(j)&=v(T)-v(T-\{j\})\\
+a_T(S)=a_T(T-\{i\})&=a_T(S-\{j\})+a_T(\{j\})\\
+&\leq v(S-\{j\})+v(S+\{i\})-v(S+\{i\}-\{j\})
+    \end{aligned}
+\end{equation}
+
+Use the submodular identity again, according to Eq.~\eqref{equ:4-5}. Set \(s=S\),
+\(t=S+\{i\}-\{j\}\) and substitute the formula
+\begin{equation}
+    \begin{aligned}
+    v(S+\{i\})+v(S-\{j\})\leq v(S)+v(S+\{i\}-\{j\})\\
+a_T(S) \leq v(S+\{i\})+v(S-\{j\})-v(S+\{i\}-\{j\}) \leq
+v(S)
+    \end{aligned}
+\end{equation}
+
+Thus, for \(T=S+\{i\}\), we can show that \(a_T(S)\leq v(S)\).
+
+                  For all the situations in case \(3\), we can prove that
+\(a_T(S)\leq v(S)\) always exists using mathematical induction similar
+to the previous one.
+
+Hence, combining case 1,2 and 3, we can prove that any monotone and
+normalized submodular function \(v(S)\) can be written as an XOS
+function.
+
+\problem{Virtual Valuation and Regularity Condition}
+\subsection{}
+For a uniform distribution, the distribution function is as follows:
+
+\begin{equation}
+    F(x)=x,\text{where }x\in[0,1]
+\end{equation}
+
+As \(F^{-1}(x)=x\), \(V(q)=F^{-1}(1-q)=1-q\), which denotes the posted
+price resulting in a probability \(q\) of a sale.
+
+Hence, the revenue curve \(R(q)=q\cdot V(q)=q(1-q)\).
+
+\subsection{}\label{sec:4-2}
+The revenue curve at \(q\)
+\begin{equation}
+    R(q)=q \cdot V(q)=q\cdot F^{-1}(1-q),q\in[0,1]
+    \label{eq:3-2}
+\end{equation}
+
+Take the inverse function of \(F^{-1}\), we can obtain
+
+\begin{equation}
+    F(\dfrac{R(q)}{q})=1-q
+    \label{eq:3-3}
+\end{equation}
+
+Then, take the derivative of both sides
+
+\begin{equation}
+    f(\frac{R(q)}{q})\cdot \frac{R^{'}(q)\cdot q-R(q)\cdot1}{q^2}=-1
+    \label{eq:3-4}
+\end{equation}
+
+Based on equation Eq.~\eqref{eq:3-2}, we simplify Eq.~\eqref{eq:3-4} 
+\begin{equation}
+\begin{aligned}
+f(V(q))\cdot\frac{R^{'}(q)\cdot q-q\cdot V(q)}{q^2}&=-1\\
+f(V(q))\cdot\frac{R^{'}(q)-V(q)}{q}&=-1
+\end{aligned}
+\end{equation}
+
+Thus, we get the slope of the revenue curve at \(q\)
+\begin{equation}
+    R^{'}(q)=V(q)-\frac{q}{f(V(q))}
+\end{equation}
+
+According to equation Eq.~\eqref{eq:3-3},
+\(q=1-F(\frac{R(q)}{q})=1-F(V(q))\). Hence, \(R^{'}(q)=\varphi(V(q))\),
+since the virtual valuation \(\varphi(v)=v-\frac{1-F(v)}{f(v)}\) and
+\(V(q)\) can get all possible values of \(v\) for \(q\in[0,1]\).
+
+
+\subsection{}\label{sec:4-3}
+We have proved in Sec.~\eqref{sec:4-2} that
+\begin{equation}
+    R^{'}(q)=\varphi(V(q))
+\end{equation}
+
+Take the derivative of both sides
+\begin{equation}
+    R^{''}(q)=[\varphi(V(q))]^{'}=\varphi^{'}(V(q))\cdot V^{'}(q)
+\end{equation}
+
+Then, take the derivative of equation Eq.~\eqref{eq:3-2}, we can get the
+derivative of \(V(q)\)
+\begin{equation}
+\begin{aligned}
+f(V(q))\cdot V^{'}(q)=-1\\
+V^{'}(q)=-\frac{1}{f(V(q))}
+\end{aligned}
+\end{equation}
+
+Since the distribution density is strictly positive, \(V^{'}(q)<0\).
+Thus,
+\begin{equation}
+    R^{''}(q)<0\;\text{ iff }\varphi^{'}(V(q))>0,q\in[0,1]
+    \label{eq:3-10}
+\end{equation}
+
+Furthermore, for \(q\in[0,1]\), \(V(q)\) can get all possible values of
+\(v\). Hence, equation \ref{eq:3-10} can be turned into
+\begin{equation}
+    R^{''}(q)<0\;\text{ iff }\varphi^{'}(v)>0,v\in[0,v_{max}]
+\end{equation}
+
+Thus, the revenue curve is concave if and only if \(\varphi(v)\) is a
+monotone non-decreasing function for \(v \in [0,v_{max}]\), which is
+equivalent to the definition of a regular distribution.
+\subsection{}
+As proven in section Sec.~\eqref{sec:4-3}, if a valuation distribution is regular, its
+revenue curve is concave. That is to say, for \(q\in[0,1]\),
+\(R^{''}(q)<0\).
+
+Let \(q^{'}\) be the the maximum point of \(R\), namely
+\(R(q^{'})= max_{q\in[0,1]}R(q)\). According to Jensen's inequality, the
+secant line of a convex function lies above the graph of the function,
+we can know that
+\begin{equation}
+    \begin{aligned}
+    R\left(\frac{0+q^{'}}{2}\right)\geq \frac{R(0)+R(q^{'})}{2}\\
+R\left(\frac{q^{'}+1}{2}\right)\geq \frac{R(q^{'})+R(1)}{2}
+    \end{aligned}
+    \label{eq:3-13}
+\end{equation}
+
+Since \(R(0)=R(1)=0\), Eq.~\eqref{eq:3-13} can be simplified as
+follows:
+\begin{equation}
+    \begin{aligned}
+    R\left(\frac{q^{'}}{2}\right)\geq\frac{1}{2}R(q^{'})\\
+    R\left(\frac{q^{'}+1}{2}\right)\geq \frac{1}{2}R(q^{'})
+    \end{aligned}
+\end{equation}
+As \(0\leq q^{'}\leq1\),
+\(\dfrac{q^{'}}{2}\leq \dfrac{1}{2}\leq \dfrac{q^{'}+1}{2}\). According
+to the properties of convex functions
+
+\begin{equation}
+    \begin{aligned}
+    R\left(\frac{1}{2}\right)\geq R\left(\frac{q^{'}}{2}\right)\geq\frac{1}{2}R(q^{'})\\
+R\left(\frac{1}{2}\right)\geq R\left(\frac{q^{'}+1}{2}\right)\geq \frac{1}{2}R(q^{'})\\
+\Rightarrow R\left(\frac{1}{2}\right)\geq \frac{1}{2}max_{q\in[0,1]}R(q)
+    \end{aligned}
+\end{equation}
+
+Thus, we can prove that the median price \(V\left(\dfrac{1}{2}\right)\)
+is a \(\dfrac{1}{2}\)-approximation of the optimal posted price for a
+regular distribution.
+
+\end{document}
